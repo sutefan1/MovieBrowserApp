@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@shoutem/ui": "^0.23.4",
+    "axios": "^0.18.0",
     "react": "16.5.0",
     "react-native": "0.57.0",
     "react-navigation": "^2.16.0"

@@ -1,4 +1,11 @@
 import ApiKey from "./ApiKey";
 
-export const DATA_URL = `http://www.omdbapi.com/?${ApiKey}&`;
-export const POSTER_URL = `http://img.omdbapi.com/?${ApiKey}&`;
+export const ROOT_URL = {
+  API: `https://api.themoviedb.org/3`,
+  IMAGE: "https://image.tmdb.org/t/p/w780"
+};
+export const API_ENDPOINT = {
+  MOVIE: `/movie`,
+  TVSHOW: "/tv",
+  DISCOVER: "/discover"
+};

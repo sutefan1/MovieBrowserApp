@@ -14,10 +14,6 @@ class MainScreen extends Component {
           <Icon name="like" />
           <Text>LIKE</Text>
         </Button>
-        <Button styleName="full-width">
-          <Icon name="comment-full" />
-          <Text>COMMENT</Text>
-        </Button>
       </View>
     );
   }
