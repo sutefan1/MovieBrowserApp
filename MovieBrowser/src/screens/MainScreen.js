@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
-import { Button } from "@shoutem/ui";
+import { Text } from "react-native";
+import { Button, View, Icon } from "@shoutem/ui";
 
 class MainScreen extends Component {
   static navigationOptions = {
@@ -9,8 +9,15 @@ class MainScreen extends Component {
 
   render() {
     return (
-      <View>
-        <Text>MainScreen</Text>
+      <View styleName="horizontal flexible">
+        <Button styleName="full-width">
+          <Icon name="like" />
+          <Text>LIKE</Text>
+        </Button>
+        <Button styleName="full-width">
+          <Icon name="comment-full" />
+          <Text>COMMENT</Text>
+        </Button>
       </View>
     );
   }
