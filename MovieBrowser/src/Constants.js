@@ -9,3 +9,20 @@ export const API_ENDPOINT = {
   TVSHOW: "/tv",
   DISCOVER: "/discover"
 };
+
+export const TYPE_SHOW = "show";
+export const TYPE_MOVIE = "movie";
+
+export const COLOR = { BACKGROUND: "#3a3a3a", NAVBAR: "#7a7a7a" };
+
+export const SHADOW = {
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 10
+  },
+  shadowOpacity: 0.53,
+  shadowRadius: 13.97,
+
+  elevation: 21
+};

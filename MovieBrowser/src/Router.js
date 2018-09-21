@@ -1,8 +1,7 @@
 import { createStackNavigator } from "react-navigation";
 import React, { Component } from "react";
-import { View, Text } from "react-native";
-import { Button } from "@shoutem/ui";
 import MainScreen from "./screens/MainScreen";
+import DetailScreen from "./screens/DetailScreen";
 
 class Router extends Component {
   render() {
@@ -10,6 +9,9 @@ class Router extends Component {
       {
         main: {
           screen: MainScreen
+        },
+        detail: {
+          screen: DetailScreen
         }
       },
       {}
