@@ -1,11 +1,13 @@
 import React, { Component } from "react";
+import _ from "lodash";
 import {
   ScrollView,
   View,
   TouchableOpacity,
   FlatList,
   StatusBar,
-  Platform
+  Platform,
+  YellowBox
 } from "react-native";
 import { ImageBackground, Tile, Title, Heading } from "@shoutem/ui";
 import DiscoverMovies from "../DiscoverMovies.json";
@@ -17,6 +19,8 @@ import {
   COLOR,
   KEY_EXTRACTOR
 } from "../Constants";
+import * as API from "../ApiUtil";
+YellowBox.ignoreWarnings(["Require cycle:"]);
 
 class MainScreen extends Component {
   static navigationOptions = {
@@ -33,6 +37,28 @@ class MainScreen extends Component {
     headerTintColor: "white",
     headerStyle: {
       backgroundColor: COLOR.NAVBAR
+    }
+  };
+
+  state = {
+    discoverMovies: DiscoverMovies,
+    discoverShows: DiscoverTVShows,
+    isRefreshing: false
+  };
+
+  listRefs = {};
+
+  componentDidMount = async () => {
+    this.setState({ isRefreshing: true });
+    try {
+      const { data: discoverMovies } = await API.DiscoverMoviesByPopularity(1);
+      const { data: discoverShows } = await API.DiscoverShowsByPopularity(1);
+
+      this.setState({ discoverMovies, discoverShows });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.setState({ isRefreshing: false });
     }
   };
 
@@ -71,7 +97,7 @@ class MainScreen extends Component {
     return this.renderRowItem(item, TYPE_SHOW);
   };
 
-  renderHorizontalList = ({ title, data, renderItem }) => {
+  renderHorizontalList = ({ title, data, renderItem, getRef }) => {
     return (
       <View>
         <Title style={{ color: "white", paddingLeft: 20, paddingVertical: 10 }}>
@@ -86,6 +112,7 @@ class MainScreen extends Component {
           renderItem={renderItem}
           horizontal
           showsHorizontalScrollIndicator={false}
+          ref={getRef}
           keyExtractor={KEY_EXTRACTOR}
         />
       </View>
@@ -96,17 +123,46 @@ class MainScreen extends Component {
     return this.renderHorizontalList(item);
   };
 
+  onRefresh = async () => {
+    this.setState({ isRefreshing: true });
+    try {
+      const { data: discoverMovies } = await API.DiscoverMoviesByPopularity(1);
+      const { data: discoverShows } = await API.DiscoverShowsByPopularity(1);
+
+      this.setState({ discoverMovies, discoverShows });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      _.forOwn(this.listRefs, function(value, key) {
+        console.log(key);
+        value.scrollToOffset({ animated: true, offset: 0 });
+      });
+      this.setState({ isRefreshing: false });
+    }
+  };
+
   render() {
+    const { discoverShows, discoverMovies } = this.state;
     const listData = [
       {
         title: "Discover Movies",
-        data: DiscoverMovies.results,
-        renderItem: this.renderRowMovieItem
+        data: discoverMovies.results,
+        renderItem: this.renderRowMovieItem,
+        getRef: ref => {
+          if (!this.listRefs[TYPE_MOVIE] && ref) {
+            this.listRefs[TYPE_MOVIE] = ref;
+          }
+        }
       },
       {
         title: "Discover Shows",
-        data: DiscoverTVShows.results,
-        renderItem: this.renderRowShowItem
+        data: discoverShows.results,
+        renderItem: this.renderRowShowItem,
+        getRef: ref => {
+          if (!this.listRefs[TYPE_SHOW] && ref) {
+            this.listRefs[TYPE_SHOW] = ref;
+          }
+        }
       }
     ];
     return (
@@ -117,6 +173,9 @@ class MainScreen extends Component {
           renderItem={this.renderListItem}
           showsVerticalScrollIndicator={false}
           keyExtractor={KEY_EXTRACTOR}
+          onRefresh={this.onRefresh}
+          ref={ref => (this.overallListRef = ref)}
+          refreshing={this.state.isRefreshing}
         />
       </View>
     );
