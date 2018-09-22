@@ -13,7 +13,7 @@ export const API_ENDPOINT = {
 export const TYPE_SHOW = "show";
 export const TYPE_MOVIE = "movie";
 
-export const COLOR = { BACKGROUND: "#3a3a3a", NAVBAR: "#7a7a7a" };
+export const COLOR = { BACKGROUND: "#1a1a1a", NAVBAR: "#111" };
 
 export const SHADOW = {
   shadowColor: "#000",
@@ -26,3 +26,5 @@ export const SHADOW = {
 
   elevation: 21
 };
+
+export const KEY_EXTRACTOR = (item, index) => "" + index;

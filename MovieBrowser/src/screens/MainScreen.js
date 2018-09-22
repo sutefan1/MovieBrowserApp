@@ -1,36 +1,44 @@
 import React, { Component } from "react";
-import { ScrollView, View, TouchableOpacity } from "react-native";
 import {
-  Button,
-  Icon,
-  ImageBackground,
-  Tile,
-  Overlay,
-  Title,
-  Subtitle,
-  Heading,
-  Text,
-  ListView
-} from "@shoutem/ui";
+  ScrollView,
+  View,
+  TouchableOpacity,
+  FlatList,
+  StatusBar,
+  Platform
+} from "react-native";
+import { ImageBackground, Tile, Title, Heading } from "@shoutem/ui";
 import DiscoverMovies from "../DiscoverMovies.json";
 import DiscoverTVShows from "../DiscoverTV.json";
-import { ROOT_URL, TYPE_MOVIE, TYPE_SHOW, COLOR, SHADOW } from "../Constants";
+import {
+  ROOT_URL,
+  TYPE_MOVIE,
+  TYPE_SHOW,
+  COLOR,
+  KEY_EXTRACTOR
+} from "../Constants";
 
 class MainScreen extends Component {
   static navigationOptions = {
-    title: "MovieBrowser",
+    headerTitle:
+      Platform.OS === "android" ? (
+        <Heading
+          style={{ color: "white", paddingLeft: 20, paddingVertical: 10 }}
+        >
+          MovieBrowser
+        </Heading>
+      ) : (
+        <Heading style={{ color: "white" }}>MovieBrowser</Heading>
+      ),
     headerTintColor: "white",
     headerStyle: {
       backgroundColor: COLOR.NAVBAR
     }
   };
 
-  renderRowMovie = item => {
+  renderRowItem = (item, type) => {
     return (
-      <TouchableOpacity
-        style={{ paddingHorizontal: 20, backgroundColor: COLOR.BACKGROUND }}
-        onPress={() => this.onPress(item, TYPE_MOVIE)}
-      >
+      <TouchableOpacity onPress={() => this.onPress(item, type)}>
         <ImageBackground
           style={{ width: 180, height: 250 }}
           source={{
@@ -38,7 +46,9 @@ class MainScreen extends Component {
           }}
         >
           <Tile>
-            <Title styleName="md-gutter-top">{item.title}</Title>
+            <Title styleName="md-gutter-top">
+              {type === TYPE_MOVIE ? item.title : item.name}
+            </Title>
             <Heading>
               {item.vote_average}
               /10
@@ -49,66 +59,65 @@ class MainScreen extends Component {
     );
   };
 
+  renderRowMovieItem = ({ item }) => {
+    return this.renderRowItem(item, TYPE_MOVIE);
+  };
+
   onPress = (item, type) => {
     this.props.navigation.navigate("detail", { item, type });
   };
 
-  renderRowShow = item => {
+  renderRowShowItem = ({ item }) => {
+    return this.renderRowItem(item, TYPE_SHOW);
+  };
+
+  renderHorizontalList = ({ title, data, renderItem }) => {
     return (
-      <TouchableOpacity
-        style={{ paddingHorizontal: 20, backgroundColor: COLOR.BACKGROUND }}
-        onPress={() => this.onPress(item, TYPE_SHOW)}
-      >
-        <View style={[{ borderRadius: 2, border }, SHADOW]}>
-          <ImageBackground
-            style={{
-              width: 180,
-              height: 250
-            }}
-            source={{
-              uri: ROOT_URL.IMAGE + item.poster_path
-            }}
-          >
-            <Tile>
-              <Title styleName="md-gutter-top">{item.name}</Title>
-              <Heading>
-                {item.vote_average}
-                /10
-              </Heading>
-            </Tile>
-          </ImageBackground>
-        </View>
-      </TouchableOpacity>
+      <View>
+        <Title style={{ color: "white", paddingLeft: 20, paddingVertical: 10 }}>
+          {title}
+        </Title>
+        <FlatList
+          contentContainerStyle={{ paddingHorizontal: 20 }}
+          ItemSeparatorComponent={() => (
+            <View style={{ width: 10, height: 250 }} />
+          )}
+          data={data}
+          renderItem={renderItem}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={KEY_EXTRACTOR}
+        />
+      </View>
     );
   };
 
+  renderListItem = ({ item }) => {
+    return this.renderHorizontalList(item);
+  };
+
   render() {
+    const listData = [
+      {
+        title: "Discover Movies",
+        data: DiscoverMovies.results,
+        renderItem: this.renderRowMovieItem
+      },
+      {
+        title: "Discover Shows",
+        data: DiscoverTVShows.results,
+        renderItem: this.renderRowShowItem
+      }
+    ];
     return (
       <View style={{ flex: 1, backgroundColor: COLOR.BACKGROUND }}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Title
-            style={{ color: "white", paddingLeft: 20, paddingVertical: 10 }}
-          >
-            Discover Movies
-          </Title>
-          <ListView
-            data={DiscoverMovies.results}
-            renderRow={this.renderRowMovie}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          />
-          <Title
-            style={{ color: "white", paddingLeft: 20, paddingVertical: 10 }}
-          >
-            Discover Shows
-          </Title>
-          <ListView
-            data={DiscoverTVShows.results}
-            renderRow={this.renderRowShow}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          />
-        </ScrollView>
+        <StatusBar backgroundColor="#111" />
+        <FlatList
+          data={listData}
+          renderItem={this.renderListItem}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={KEY_EXTRACTOR}
+        />
       </View>
     );
   }
