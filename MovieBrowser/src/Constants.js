@@ -10,8 +10,8 @@ export const API_ENDPOINT = {
   DISCOVER: "/discover"
 };
 
-export const TYPE_SHOW = "show";
-export const TYPE_MOVIE = "movie";
+export const TYPE_SHOW_DISCOVER = "show_discover";
+export const TYPE_MOVIE_DISCOVER = "movie_discover";
 
 export const COLOR = { BACKGROUND: "#1a1a1a", NAVBAR: "#111" };
 

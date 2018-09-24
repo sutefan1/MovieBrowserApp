@@ -9,18 +9,19 @@ import {
   Platform,
   YellowBox
 } from "react-native";
-import { ImageBackground, Tile, Title, Heading } from "@shoutem/ui";
+
+import { Heading } from "@shoutem/ui";
 import DiscoverMovies from "../DiscoverMovies.json";
 import DiscoverTVShows from "../DiscoverTV.json";
 import {
   ROOT_URL,
-  TYPE_MOVIE,
-  TYPE_SHOW,
+  TYPE_MOVIE_DISCOVER,
+  TYPE_SHOW_DISCOVER,
   COLOR,
   KEY_EXTRACTOR
 } from "../Constants";
 import * as API from "../ApiUtil";
-YellowBox.ignoreWarnings(["Require cycle:"]);
+import HorizontalList from "../components/HorizontalList";
 
 class MainScreen extends Component {
   static navigationOptions = {
@@ -41,81 +42,22 @@ class MainScreen extends Component {
   };
 
   state = {
-    discoverMovies: DiscoverMovies,
-    discoverShows: DiscoverTVShows,
     isRefreshing: false
   };
 
-  listRefs = {};
+  horizontalListRefs = {};
 
   componentDidMount = async () => {
-    this.setState({ isRefreshing: true });
-    try {
-      const { data: discoverMovies } = await API.DiscoverMoviesByPopularity(1);
-      const { data: discoverShows } = await API.DiscoverShowsByPopularity(1);
-
-      this.setState({ discoverMovies, discoverShows });
-    } catch (err) {
-      console.log(err);
-    } finally {
-      this.setState({ isRefreshing: false });
-    }
+    await this.onRefresh();
   };
 
-  renderRowItem = (item, type) => {
+  renderHorizontalList = ({ type, getRef }) => {
     return (
-      <TouchableOpacity onPress={() => this.onPress(item, type)}>
-        <ImageBackground
-          style={{ width: 180, height: 250 }}
-          source={{
-            uri: ROOT_URL.IMAGE + item.poster_path
-          }}
-        >
-          <Tile>
-            <Title styleName="md-gutter-top">
-              {type === TYPE_MOVIE ? item.title : item.name}
-            </Title>
-            <Heading>
-              {item.vote_average}
-              /10
-            </Heading>
-          </Tile>
-        </ImageBackground>
-      </TouchableOpacity>
-    );
-  };
-
-  renderRowMovieItem = ({ item }) => {
-    return this.renderRowItem(item, TYPE_MOVIE);
-  };
-
-  onPress = (item, type) => {
-    this.props.navigation.navigate("detail", { item, type });
-  };
-
-  renderRowShowItem = ({ item }) => {
-    return this.renderRowItem(item, TYPE_SHOW);
-  };
-
-  renderHorizontalList = ({ title, data, renderItem, getRef }) => {
-    return (
-      <View>
-        <Title style={{ color: "white", paddingLeft: 20, paddingVertical: 10 }}>
-          {title}
-        </Title>
-        <FlatList
-          contentContainerStyle={{ paddingHorizontal: 20 }}
-          ItemSeparatorComponent={() => (
-            <View style={{ width: 10, height: 250 }} />
-          )}
-          data={data}
-          renderItem={renderItem}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          ref={getRef}
-          keyExtractor={KEY_EXTRACTOR}
-        />
-      </View>
+      <HorizontalList
+        type={type}
+        ref={getRef}
+        navigation={this.props.navigation}
+      />
     );
   };
 
@@ -126,41 +68,29 @@ class MainScreen extends Component {
   onRefresh = async () => {
     this.setState({ isRefreshing: true });
     try {
-      const { data: discoverMovies } = await API.DiscoverMoviesByPopularity(1);
-      const { data: discoverShows } = await API.DiscoverShowsByPopularity(1);
-
-      this.setState({ discoverMovies, discoverShows });
+      _.forOwn(this.horizontalListRefs, function(value, key) {});
     } catch (err) {
       console.log(err);
     } finally {
-      _.forOwn(this.listRefs, function(value, key) {
-        console.log(key);
-        value.scrollToOffset({ animated: true, offset: 0 });
-      });
       this.setState({ isRefreshing: false });
     }
   };
 
   render() {
-    const { discoverShows, discoverMovies } = this.state;
     const listData = [
       {
-        title: "Discover Movies",
-        data: discoverMovies.results,
-        renderItem: this.renderRowMovieItem,
+        type: TYPE_MOVIE_DISCOVER,
         getRef: ref => {
-          if (!this.listRefs[TYPE_MOVIE] && ref) {
-            this.listRefs[TYPE_MOVIE] = ref;
+          if (!this.horizontalListRefs[TYPE_MOVIE_DISCOVER] && ref) {
+            this.horizontalListRefs[TYPE_MOVIE_DISCOVER] = ref;
           }
         }
       },
       {
-        title: "Discover Shows",
-        data: discoverShows.results,
-        renderItem: this.renderRowShowItem,
+        type: TYPE_SHOW_DISCOVER,
         getRef: ref => {
-          if (!this.listRefs[TYPE_SHOW] && ref) {
-            this.listRefs[TYPE_SHOW] = ref;
+          if (!this.horizontalListRefs[TYPE_SHOW_DISCOVER] && ref) {
+            this.horizontalListRefs[TYPE_SHOW_DISCOVER] = ref;
           }
         }
       }

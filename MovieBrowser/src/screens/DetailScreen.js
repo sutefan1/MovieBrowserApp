@@ -16,7 +16,7 @@ import {
 } from "@shoutem/ui";
 import DiscoverMovies from "../DiscoverMovies.json";
 import DiscoverTVShows from "../DiscoverTV.json";
-import { ROOT_URL, TYPE_MOVIE, TYPE_SHOW, SHADOW } from "../Constants";
+import { ROOT_URL, SHADOW, TYPE_MOVIE_DISCOVER } from "../Constants";
 
 class DetailScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -24,13 +24,14 @@ class DetailScreen extends Component {
     const { item, type } = state.params;
 
     return {
-      title: type === TYPE_MOVIE ? item.original_title : item.original_name
+      title:
+        type === TYPE_MOVIE_DISCOVER ? item.original_title : item.original_name
     };
   };
 
   render() {
     const item = this.props.navigation.getParam("item", {});
-    const type = this.props.navigation.getParam("type", TYPE_MOVIE);
+    const type = this.props.navigation.getParam("type", TYPE_MOVIE_DISCOVER);
 
     return (
       <ScrollView style={{ flex: 1 }}>
@@ -42,13 +43,15 @@ class DetailScreen extends Component {
         >
           <Tile>
             <Title styleName="md-gutter-top">
-              {type === TYPE_MOVIE ? item.title : item.name}
+              {type === TYPE_MOVIE_DISCOVER ? item.title : item.name}
             </Title>
           </Tile>
         </ImageBackground>
         <Text>
           <Text styleName="bold">Release Date: </Text>
-          {type === TYPE_MOVIE ? item.release_date : item.first_air_date}
+          {type === TYPE_MOVIE_DISCOVER
+            ? item.release_date
+            : item.first_air_date}
         </Text>
         <Title>
           <Title styleName="bold">Overview: </Title>
