@@ -2,6 +2,7 @@ import { createStackNavigator } from "react-navigation";
 import React, { Component } from "react";
 import MainScreen from "./screens/MainScreen";
 import DetailScreen from "./screens/DetailScreen";
+import SearchScreen from "./screens/SearchScreen";
 
 class Router extends Component {
   render() {
@@ -12,6 +13,9 @@ class Router extends Component {
         },
         detail: {
           screen: DetailScreen
+        },
+        search: {
+          screen: SearchScreen
         }
       },
       {}

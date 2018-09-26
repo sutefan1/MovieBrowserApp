@@ -140,3 +140,29 @@ export const GetGenreNameById = async (id, isMovie = true) => {
     }
   }
 };
+
+export const SearchForMovieByName = async (query = "Flash") => {
+  let url =
+    Constants.ROOT_URL.API +
+    Constants.API_ENDPOINT.SEARCH +
+    Constants.API_ENDPOINT.MOVIE +
+    "?" +
+    ApiKey;
+
+  url += "&" + "query=" + query;
+  const searchResponse = await axios.get(url);
+  return searchResponse;
+};
+
+export const SearchForShowByName = async (query = "Flash") => {
+  let url =
+    Constants.ROOT_URL.API +
+    Constants.API_ENDPOINT.SEARCH +
+    Constants.API_ENDPOINT.TVSHOW +
+    "?" +
+    ApiKey;
+
+  url += "&" + "query=" + query;
+  const searchResponse = await axios.get(url);
+  return searchResponse;
+};

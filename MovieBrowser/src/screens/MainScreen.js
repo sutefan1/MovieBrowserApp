@@ -10,7 +10,7 @@ import {
   YellowBox
 } from "react-native";
 
-import { Heading } from "@shoutem/ui";
+import { Heading, Title, Icon } from "@shoutem/ui";
 import DiscoverMovies from "../DiscoverMovies.json";
 import DiscoverTVShows from "../DiscoverTV.json";
 import {
@@ -26,21 +26,31 @@ import * as API from "../ApiUtil";
 import HorizontalList from "../components/HorizontalList";
 
 class MainScreen extends Component {
-  static navigationOptions = {
-    headerTitle:
-      Platform.OS === "android" ? (
-        <Heading
-          style={{ color: "white", paddingLeft: 20, paddingVertical: 10 }}
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle:
+        Platform.OS === "android" ? (
+          <Heading
+            style={{ color: "white", paddingLeft: 20, paddingVertical: 10 }}
+          >
+            MovieBrowser
+          </Heading>
+        ) : (
+          <Heading style={{ color: "white" }}>MovieBrowser</Heading>
+        ),
+      headerTintColor: "white",
+      headerStyle: {
+        backgroundColor: COLOR.NAVBAR
+      },
+      headerRight: (
+        <TouchableOpacity
+          style={{ marginHorizontal: 20 }}
+          onPress={() => navigation.navigate("search")}
         >
-          MovieBrowser
-        </Heading>
-      ) : (
-        <Heading style={{ color: "white" }}>MovieBrowser</Heading>
-      ),
-    headerTintColor: "white",
-    headerStyle: {
-      backgroundColor: COLOR.NAVBAR
-    }
+          <Icon name="search" style={{ color: "white" }} />
+        </TouchableOpacity>
+      )
+    };
   };
 
   state = {
@@ -75,34 +85,34 @@ class MainScreen extends Component {
         data: DiscoverTVShows.results
       }
     ];
-    try {
-      const {
-        status,
-        data: { genres }
-      } = await API.GetGenreList(true);
-      if (status === 200) {
-        _.forEach(genres, genre => {
-          const entry = {
-            type: TYPE_GENRE_MOVIE,
-            title: "Movie Genre " + CAPITALIZE_FIRST_LETTER(genre.name),
-            args: genre.id,
-            getRef: ref => {
-              if (
-                !this.horizontalListRefs[TYPE_GENRE_MOVIE + genre.id] &&
-                ref
-              ) {
-                this.horizontalListRefs[TYPE_GENRE_MOVIE + genre.id] = ref;
-              }
-            },
-            apiCall: API.DiscoverMoviesByPopularity,
-            data: []
-          };
-          listData.push(entry);
-        });
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    // try {
+    //   const {
+    //     status,
+    //     data: { genres }
+    //   } = await API.GetGenreList(true);
+    //   if (status === 200) {
+    //     _.forEach(genres, genre => {
+    //       const entry = {
+    //         type: TYPE_GENRE_MOVIE,
+    //         title: "Movie Genre " + CAPITALIZE_FIRST_LETTER(genre.name),
+    //         args: genre.id,
+    //         getRef: ref => {
+    //           if (
+    //             !this.horizontalListRefs[TYPE_GENRE_MOVIE + genre.id] &&
+    //             ref
+    //           ) {
+    //             this.horizontalListRefs[TYPE_GENRE_MOVIE + genre.id] = ref;
+    //           }
+    //         },
+    //         apiCall: API.DiscoverMoviesByPopularity,
+    //         data: []
+    //       };
+    //       listData.push(entry);
+    //     });
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    // }
     this.setState({ listData });
   };
 
@@ -148,6 +158,7 @@ class MainScreen extends Component {
           onRefresh={this.onRefresh}
           ref={ref => (this.overallListRef = ref)}
           refreshing={this.state.isRefreshing}
+          initialNumToRender={2}
         />
       </View>
     );

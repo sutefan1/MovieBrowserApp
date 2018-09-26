@@ -8,6 +8,7 @@ export const API_ENDPOINT = {
   MOVIE: `/movie`,
   TVSHOW: "/tv",
   DISCOVER: "/discover",
+  SEARCH: "/search",
   GENRE_MOVIE_LIST: "/genre/movie/list",
   GENRE_TVSHOW_LIST: "/genre/tv/list"
 };
