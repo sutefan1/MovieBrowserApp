@@ -7,9 +7,10 @@ import {
   FlatList,
   StatusBar,
   Platform,
-  YellowBox
+  YellowBox,
+  Image
 } from "react-native";
-import { ImageBackground, Title, Tile, Heading } from "@shoutem/ui";
+import { ImageBackground, Title, Tile, Heading, Spinner } from "@shoutem/ui";
 import DiscoverMovies from "../DiscoverMovies.json";
 import DiscoverTVShows from "../DiscoverTV.json";
 import {
@@ -19,6 +20,8 @@ import {
   COLOR,
   KEY_EXTRACTOR
 } from "../Constants";
+import PlusSign from "../../assets/plus.png";
+import CoverItem from "../components/CoverItem";
 import * as API from "../ApiUtil";
 
 const TYPE_TO_CONTENT_MAPPING = {
@@ -40,50 +43,86 @@ class HorizontalList extends Component {
     this.state = {
       ...TYPE_TO_CONTENT_MAPPING[props.type],
       renderItem: ({ item }) => this.renderRowItem(item, props.type),
-      apiCallPage: 1
+      actualApiCallPage: 1,
+      isFetchingData: false
     };
   }
 
-  componentDidMount = async () => {
-    const { apiCall, apiCallPage } = this.state;
-    try {
-      const {
-        data: { results }
-      } = await apiCall(apiCallPage);
+  onListRefresh = () => {
+    new Promise(async (resolve, reject) => {
+      const { apiCall } = this.state;
+      try {
+        const { status, data } = await apiCall(1);
+        if (status === 200) {
+          const { results } = data;
+          this.listRef.scrollToOffset({ animated: true, offset: 0 });
+          this.setState({ data: results, actualApiCallPage: 1 });
+          resolve();
+        } else {
+          reject(status);
+        }
+      } catch (err) {
+        reject(err);
+      }
+    });
+  };
 
-      this.setState({ data: results, apiCallPage: apiCallPage + 1 });
-    } catch (err) {}
+  fetchNewData = async () => {
+    this.setState({ isFetchingData: true });
+    const { apiCall, actualApiCallPage } = this.state;
+    try {
+      const newActualApiCallPage = actualApiCallPage + 1;
+      const { status, data } = await apiCall(newActualApiCallPage);
+      if (status === 200) {
+        const { results } = data;
+        this.setState({
+          data: _.concat(this.state.data, results),
+          actualApiCallPage: newActualApiCallPage
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.setState({ isFetchingData: false });
+    }
+  };
+
+  onEndReached = async () => {
+    await this.fetchNewData();
   };
 
   renderRowItem = (item, type) => {
     return (
-      <TouchableOpacity onPress={() => this.onPress(item, type)}>
-        <ImageBackground
-          style={{ width: 180, height: 250 }}
-          source={{
-            uri: ROOT_URL.IMAGE + item.poster_path
-          }}
-        >
-          <Tile>
-            <Title styleName="md-gutter-top">
-              {type === TYPE_MOVIE_DISCOVER ? item.title : item.name}
-            </Title>
-            <Heading>
-              {item.vote_average}
-              /10
-            </Heading>
-          </Tile>
-        </ImageBackground>
-      </TouchableOpacity>
+      <CoverItem item={item} type={type} navigation={this.props.navigation} />
     );
   };
 
-  onPress = (item, type) => {
-    this.props.navigation.navigate("detail", { item, type });
+  renderFooterItem = isFetchingData => {
+    return (
+      <View
+        style={{
+          width: 180,
+          height: 250,
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        {isFetchingData ? (
+          <Spinner style={{ size: "large" }} />
+        ) : (
+          <TouchableOpacity onPress={() => this.fetchNewData()}>
+            <Image
+              style={{ width: 180, height: 250, resizeMode: "center" }}
+              source={PlusSign}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+    );
   };
 
   render() {
-    const { title, data, renderItem } = this.state;
+    const { title, data, renderItem, isFetchingData } = this.state;
     return (
       <View>
         <Title style={{ color: "white", paddingLeft: 20, paddingVertical: 10 }}>
@@ -94,11 +133,14 @@ class HorizontalList extends Component {
           ItemSeparatorComponent={() => (
             <View style={{ width: 10, height: 250 }} />
           )}
+          ListFooterComponent={() => this.renderFooterItem(isFetchingData)}
           data={data}
           renderItem={renderItem}
           horizontal
+          ref={ref => (this.listRef = ref)}
           showsHorizontalScrollIndicator={false}
           keyExtractor={KEY_EXTRACTOR}
+          onEndReached={this.onEndReached}
         />
       </View>
     );

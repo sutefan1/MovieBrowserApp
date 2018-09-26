@@ -34,6 +34,7 @@ export const DiscoverMoviesByPopularity = async (page = 1) => {
       "?" +
       ApiKey +
       "&" +
+      "page=" +
       page
   );
   return movieResponse;
@@ -47,6 +48,7 @@ export const DiscoverShowsByPopularity = async (page = 1) => {
       "?" +
       ApiKey +
       "&" +
+      "page=" +
       page
   );
   return showResponse;

@@ -14,8 +14,6 @@ import {
   ListView,
   ScrollView
 } from "@shoutem/ui";
-import DiscoverMovies from "../DiscoverMovies.json";
-import DiscoverTVShows from "../DiscoverTV.json";
 import { ROOT_URL, SHADOW, TYPE_MOVIE_DISCOVER } from "../Constants";
 
 class DetailScreen extends Component {
@@ -32,7 +30,6 @@ class DetailScreen extends Component {
   render() {
     const item = this.props.navigation.getParam("item", {});
     const type = this.props.navigation.getParam("type", TYPE_MOVIE_DISCOVER);
-
     return (
       <ScrollView style={{ flex: 1 }}>
         <ImageBackground

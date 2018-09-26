@@ -68,7 +68,11 @@ class MainScreen extends Component {
   onRefresh = async () => {
     this.setState({ isRefreshing: true });
     try {
-      _.forOwn(this.horizontalListRefs, function(value, key) {});
+      const refreshListPromises = [];
+      _.forOwn(this.horizontalListRefs, function(value, key) {
+        refreshListPromises.push(value.onListRefresh());
+      });
+      await Promise.all(refreshListPromises);
     } catch (err) {
       console.log(err);
     } finally {
