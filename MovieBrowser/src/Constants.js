@@ -7,7 +7,9 @@ export const ROOT_URL = {
 export const API_ENDPOINT = {
   MOVIE: `/movie`,
   TVSHOW: "/tv",
-  DISCOVER: "/discover"
+  DISCOVER: "/discover",
+  GENRE_MOVIE_LIST: "/genre/movie/list",
+  GENRE_TVSHOW_LIST: "/genre/tv/list"
 };
 
 export const TYPE_SHOW_DISCOVER = "show_discover";
@@ -25,6 +27,11 @@ export const SHADOW = {
   shadowRadius: 13.97,
 
   elevation: 21
+};
+
+export const ASYNCSTORAGE_KEYS = {
+  GENRE_MOVIE_LIST: "genres_movie",
+  GENRE_TVSHOW_LIST: "genres_tv"
 };
 
 export const KEY_EXTRACTOR = (item, index) => "" + index;

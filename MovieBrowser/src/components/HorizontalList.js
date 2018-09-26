@@ -10,7 +10,7 @@ import {
   YellowBox,
   Image
 } from "react-native";
-import { ImageBackground, Title, Tile, Heading, Spinner } from "@shoutem/ui";
+import { ImageBackground, Title, Tile, Spinner } from "@shoutem/ui";
 import DiscoverMovies from "../DiscoverMovies.json";
 import DiscoverTVShows from "../DiscoverTV.json";
 import {

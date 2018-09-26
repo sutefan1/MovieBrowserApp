@@ -9,12 +9,12 @@ import {
   Overlay,
   Title,
   Subtitle,
-  Heading,
   Text,
   ListView,
   ScrollView
 } from "@shoutem/ui";
 import { ROOT_URL, SHADOW, TYPE_MOVIE_DISCOVER } from "../Constants";
+import { GetGenreNameById } from "../ApiUtil";
 
 class DetailScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -27,9 +27,30 @@ class DetailScreen extends Component {
     };
   };
 
+  state = {
+    genres: [],
+    item: this.props.navigation.getParam("item", {}),
+    type: this.props.navigation.getParam("type", TYPE_MOVIE_DISCOVER)
+  };
+
+  async componentDidMount() {
+    const {
+      item: { genre_ids },
+      type
+    } = this.state;
+    const isMovie = type === TYPE_MOVIE_DISCOVER;
+    try {
+      let genres = await Promise.all(
+        genre_ids.map(id => GetGenreNameById(id, isMovie))
+      );
+      console.log(genres);
+      this.setState({ genres });
+    } catch (err) {
+      console.log(err);
+    }
+  }
   render() {
-    const item = this.props.navigation.getParam("item", {});
-    const type = this.props.navigation.getParam("type", TYPE_MOVIE_DISCOVER);
+    const { item, type, genres } = this.state;
     return (
       <ScrollView style={{ flex: 1 }}>
         <ImageBackground
@@ -49,6 +70,12 @@ class DetailScreen extends Component {
           {type === TYPE_MOVIE_DISCOVER
             ? item.release_date
             : item.first_air_date}
+        </Text>
+        <Text>
+          <Text styleName="bold">Genres: </Text>
+          {genres.map(genre => (
+            <Text key={genre}>{genre}, </Text>
+          ))}
         </Text>
         <Title>
           <Title styleName="bold">Overview: </Title>
