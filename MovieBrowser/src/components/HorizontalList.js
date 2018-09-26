@@ -18,41 +18,33 @@ import {
   TYPE_MOVIE_DISCOVER,
   TYPE_SHOW_DISCOVER,
   COLOR,
-  KEY_EXTRACTOR
+  KEY_EXTRACTOR,
+  TYPE_GENRE_MOVIE
 } from "../Constants";
 import PlusSign from "../../assets/plus.png";
 import CoverItem from "../components/CoverItem";
 import * as API from "../ApiUtil";
 
-const TYPE_TO_CONTENT_MAPPING = {
-  [TYPE_MOVIE_DISCOVER]: {
-    title: "Discover Popular Movies",
-    apiCall: API.DiscoverMoviesByPopularity,
-    data: DiscoverMovies.results
-  },
-  [TYPE_SHOW_DISCOVER]: {
-    title: "Discover Popular TVShows",
-    apiCall: API.DiscoverShowsByPopularity,
-    data: DiscoverTVShows.results
-  }
-};
-
 class HorizontalList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ...TYPE_TO_CONTENT_MAPPING[props.type],
+      ...props,
       renderItem: ({ item }) => this.renderRowItem(item, props.type),
       actualApiCallPage: 1,
       isFetchingData: false
     };
   }
 
+  componentDidMount() {
+    this.onListRefresh();
+  }
+
   onListRefresh = () => {
     new Promise(async (resolve, reject) => {
-      const { apiCall } = this.state;
+      const { apiCall, args } = this.state;
       try {
-        const { status, data } = await apiCall(1);
+        const { status, data } = await apiCall(1, args);
         if (status === 200) {
           const { results } = data;
           this.listRef.scrollToOffset({ animated: true, offset: 0 });
@@ -69,10 +61,10 @@ class HorizontalList extends Component {
 
   fetchNewData = async () => {
     this.setState({ isFetchingData: true });
-    const { apiCall, actualApiCallPage } = this.state;
+    const { apiCall, args, actualApiCallPage } = this.state;
     try {
       const newActualApiCallPage = actualApiCallPage + 1;
-      const { status, data } = await apiCall(newActualApiCallPage);
+      const { status, data } = await apiCall(newActualApiCallPage, args);
       if (status === 200) {
         const { results } = data;
         this.setState({

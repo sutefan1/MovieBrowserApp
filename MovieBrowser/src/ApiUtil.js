@@ -28,31 +28,37 @@ export const GetTVShowById = async id => {
   return showResponse;
 };
 
-export const DiscoverMoviesByPopularity = async (page = 1) => {
-  const movieResponse = await axios.get(
+export const DiscoverMoviesByPopularity = async (page = 1, genre) => {
+  let url =
     Constants.ROOT_URL.API +
-      Constants.API_ENDPOINT.DISCOVER +
-      Constants.API_ENDPOINT.MOVIE +
-      "?" +
-      ApiKey +
-      "&" +
-      "page=" +
-      page
-  );
+    Constants.API_ENDPOINT.DISCOVER +
+    Constants.API_ENDPOINT.MOVIE +
+    "?" +
+    ApiKey +
+    "&" +
+    "page=" +
+    page;
+  if (genre) {
+    url += "&" + "with_genres=" + genre;
+  }
+  const movieResponse = await axios.get(url);
   return movieResponse;
 };
 
-export const DiscoverShowsByPopularity = async (page = 1) => {
-  const showResponse = await axios.get(
+export const DiscoverShowsByPopularity = async (page = 1, genre) => {
+  let url =
     Constants.ROOT_URL.API +
-      Constants.API_ENDPOINT.DISCOVER +
-      Constants.API_ENDPOINT.TVSHOW +
-      "?" +
-      ApiKey +
-      "&" +
-      "page=" +
-      page
-  );
+    Constants.API_ENDPOINT.DISCOVER +
+    Constants.API_ENDPOINT.TVSHOW +
+    "?" +
+    ApiKey +
+    "&" +
+    "page=" +
+    page;
+  if (genre) {
+    url += "&" + "with_genres=" + genre;
+  }
+  const showResponse = await axios.get(url);
   return showResponse;
 };
 
@@ -60,7 +66,7 @@ export const GetImageByPath = async path => {
   return await axios.get(Constants.ROOT_URL.IMAGE + path);
 };
 
-const GetGenreList = async isMovie => {
+export const GetGenreList = async isMovie => {
   let genreResponse;
   if (isMovie) {
     genreResponse = await axios.get(

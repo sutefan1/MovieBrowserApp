@@ -17,8 +17,10 @@ import {
   ROOT_URL,
   TYPE_MOVIE_DISCOVER,
   TYPE_SHOW_DISCOVER,
+  TYPE_GENRE_MOVIE,
   COLOR,
-  KEY_EXTRACTOR
+  KEY_EXTRACTOR,
+  CAPITALIZE_FIRST_LETTER
 } from "../Constants";
 import * as API from "../ApiUtil";
 import HorizontalList from "../components/HorizontalList";
@@ -42,20 +44,73 @@ class MainScreen extends Component {
   };
 
   state = {
-    isRefreshing: false
+    isRefreshing: false,
+    listData: []
   };
 
   horizontalListRefs = {};
 
   componentDidMount = async () => {
-    await this.onRefresh();
+    const listData = [
+      {
+        type: TYPE_MOVIE_DISCOVER,
+        title: "Discover Popular Movies",
+        getRef: ref => {
+          if (!this.horizontalListRefs[TYPE_MOVIE_DISCOVER] && ref) {
+            this.horizontalListRefs[TYPE_MOVIE_DISCOVER] = ref;
+          }
+        },
+        apiCall: API.DiscoverMoviesByPopularity,
+        data: DiscoverMovies.results
+      },
+      {
+        type: TYPE_SHOW_DISCOVER,
+        title: "Discover Popular TVShows",
+        getRef: ref => {
+          if (!this.horizontalListRefs[TYPE_SHOW_DISCOVER] && ref) {
+            this.horizontalListRefs[TYPE_SHOW_DISCOVER] = ref;
+          }
+        },
+        apiCall: API.DiscoverShowsByPopularity,
+        data: DiscoverTVShows.results
+      }
+    ];
+    try {
+      const {
+        status,
+        data: { genres }
+      } = await API.GetGenreList(true);
+      if (status === 200) {
+        _.forEach(genres, genre => {
+          const entry = {
+            type: TYPE_GENRE_MOVIE,
+            title: "Movie Genre " + CAPITALIZE_FIRST_LETTER(genre.name),
+            args: genre.id,
+            getRef: ref => {
+              if (
+                !this.horizontalListRefs[TYPE_GENRE_MOVIE + genre.id] &&
+                ref
+              ) {
+                this.horizontalListRefs[TYPE_GENRE_MOVIE + genre.id] = ref;
+              }
+            },
+            apiCall: API.DiscoverMoviesByPopularity,
+            data: []
+          };
+          listData.push(entry);
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    this.setState({ listData });
   };
 
-  renderHorizontalList = ({ type, getRef }) => {
+  renderHorizontalList = item => {
     return (
       <HorizontalList
-        type={type}
-        ref={getRef}
+        {...item}
+        ref={item.getRef}
         navigation={this.props.navigation}
       />
     );
@@ -81,24 +136,7 @@ class MainScreen extends Component {
   };
 
   render() {
-    const listData = [
-      {
-        type: TYPE_MOVIE_DISCOVER,
-        getRef: ref => {
-          if (!this.horizontalListRefs[TYPE_MOVIE_DISCOVER] && ref) {
-            this.horizontalListRefs[TYPE_MOVIE_DISCOVER] = ref;
-          }
-        }
-      },
-      {
-        type: TYPE_SHOW_DISCOVER,
-        getRef: ref => {
-          if (!this.horizontalListRefs[TYPE_SHOW_DISCOVER] && ref) {
-            this.horizontalListRefs[TYPE_SHOW_DISCOVER] = ref;
-          }
-        }
-      }
-    ];
+    const { listData } = this.state;
     return (
       <View style={{ flex: 1, backgroundColor: COLOR.BACKGROUND }}>
         <StatusBar backgroundColor="#111" />

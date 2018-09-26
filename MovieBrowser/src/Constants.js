@@ -12,8 +12,10 @@ export const API_ENDPOINT = {
   GENRE_TVSHOW_LIST: "/genre/tv/list"
 };
 
-export const TYPE_SHOW_DISCOVER = "show_discover";
-export const TYPE_MOVIE_DISCOVER = "movie_discover";
+export const TYPE_SHOW_DISCOVER = "show";
+export const TYPE_GENRE_SHOW = "show";
+export const TYPE_MOVIE_DISCOVER = "movie";
+export const TYPE_GENRE_MOVIE = "movie";
 
 export const COLOR = { BACKGROUND: "#1a1a1a", NAVBAR: "#111" };
 
@@ -35,3 +37,7 @@ export const ASYNCSTORAGE_KEYS = {
 };
 
 export const KEY_EXTRACTOR = (item, index) => "" + index;
+
+export const CAPITALIZE_FIRST_LETTER = string => {
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+};
