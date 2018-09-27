@@ -44,7 +44,7 @@ class MainScreen extends Component {
       },
       headerRight: (
         <TouchableOpacity
-          style={{ marginHorizontal: 20 }}
+          style={{ padding: 20 }}
           onPress={() => navigation.navigate("search")}
         >
           <Icon name="search" style={{ color: "white" }} />
@@ -85,34 +85,34 @@ class MainScreen extends Component {
         data: DiscoverTVShows.results
       }
     ];
-    // try {
-    //   const {
-    //     status,
-    //     data: { genres }
-    //   } = await API.GetGenreList(true);
-    //   if (status === 200) {
-    //     _.forEach(genres, genre => {
-    //       const entry = {
-    //         type: TYPE_GENRE_MOVIE,
-    //         title: "Movie Genre " + CAPITALIZE_FIRST_LETTER(genre.name),
-    //         args: genre.id,
-    //         getRef: ref => {
-    //           if (
-    //             !this.horizontalListRefs[TYPE_GENRE_MOVIE + genre.id] &&
-    //             ref
-    //           ) {
-    //             this.horizontalListRefs[TYPE_GENRE_MOVIE + genre.id] = ref;
-    //           }
-    //         },
-    //         apiCall: API.DiscoverMoviesByPopularity,
-    //         data: []
-    //       };
-    //       listData.push(entry);
-    //     });
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    try {
+      const {
+        status,
+        data: { genres }
+      } = await API.GetGenreList(true);
+      if (status === 200) {
+        _.forEach(genres, genre => {
+          const entry = {
+            type: TYPE_GENRE_MOVIE,
+            title: "Movie Genre " + CAPITALIZE_FIRST_LETTER(genre.name),
+            args: genre.id,
+            getRef: ref => {
+              if (
+                !this.horizontalListRefs[TYPE_GENRE_MOVIE + genre.id] &&
+                ref
+              ) {
+                this.horizontalListRefs[TYPE_GENRE_MOVIE + genre.id] = ref;
+              }
+            },
+            apiCall: API.DiscoverMoviesByPopularity,
+            data: []
+          };
+          listData.push(entry);
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
     this.setState({ listData });
   };
 
@@ -145,6 +145,11 @@ class MainScreen extends Component {
     }
   };
 
+  getItemLayout = (data, index) => {
+    return { length: 300, offset: 300 * index, index: index };
+  };
+
+  getRef = ref => (this.overallListRef = ref);
   render() {
     const { listData } = this.state;
     return (
@@ -156,9 +161,10 @@ class MainScreen extends Component {
           showsVerticalScrollIndicator={false}
           keyExtractor={KEY_EXTRACTOR}
           onRefresh={this.onRefresh}
-          ref={ref => (this.overallListRef = ref)}
+          ref={this.getRef}
           refreshing={this.state.isRefreshing}
           initialNumToRender={2}
+          getItemLayout={this.getItemLayout}
         />
       </View>
     );

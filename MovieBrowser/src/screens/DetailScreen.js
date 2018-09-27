@@ -43,7 +43,7 @@ class DetailScreen extends Component {
       let genres = await Promise.all(
         genre_ids.map(id => GetGenreNameById(id, isMovie))
       );
-      console.log(genres);
+      genres = genres.map(genre => <Text key={genre}>{genre}, </Text>);
       this.setState({ genres });
     } catch (err) {
       console.log(err);
@@ -73,9 +73,7 @@ class DetailScreen extends Component {
         </Text>
         <Text>
           <Text styleName="bold">Genres: </Text>
-          {genres.map(genre => (
-            <Text key={genre}>{genre}, </Text>
-          ))}
+          {genres}
         </Text>
         <Title>
           <Title styleName="bold">Overview: </Title>

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import _ from "lodash";
 import {
   ScrollView,
@@ -25,7 +25,7 @@ import PlusSign from "../../assets/plus.png";
 import CoverItem from "../components/CoverItem";
 import * as API from "../ApiUtil";
 
-class HorizontalList extends Component {
+class HorizontalList extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -102,7 +102,7 @@ class HorizontalList extends Component {
         {isFetchingData ? (
           <Spinner style={{ size: "large" }} />
         ) : (
-          <TouchableOpacity onPress={() => this.fetchNewData()}>
+          <TouchableOpacity onPress={this.fetchNewData}>
             <Image
               style={{ width: 180, height: 250, resizeMode: "center" }}
               source={PlusSign}
@@ -113,14 +113,19 @@ class HorizontalList extends Component {
     );
   };
 
+  getItemLayout = (data, index) => {
+    return { length: 180, offset: (180 + 10) * index, index: index };
+  };
+
   render() {
     const { title, data, renderItem, isFetchingData } = this.state;
     return (
-      <View>
+      <View style={{ height: 300 }}>
         <Title style={{ color: "white", paddingLeft: 20, paddingVertical: 10 }}>
           {title}
         </Title>
         <FlatList
+          style={{ height: 250 }}
           contentContainerStyle={{ paddingHorizontal: 20 }}
           ItemSeparatorComponent={() => (
             <View style={{ width: 10, height: 250 }} />
@@ -133,6 +138,7 @@ class HorizontalList extends Component {
           showsHorizontalScrollIndicator={false}
           keyExtractor={KEY_EXTRACTOR}
           onEndReached={this.onEndReached}
+          getItemLayout={this.getItemLayout}
         />
       </View>
     );
