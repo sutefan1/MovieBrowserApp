@@ -7,9 +7,11 @@ class CoverItem extends PureComponent {
     this.props.navigation.navigate("detail", { item, type });
   };
 
+  state = { uri: { uri: ROOT_URL.IMAGE + this.props.item.poster_path } };
   onPress = () => this.showDetailView(this.props.item, this.props.type);
   render() {
     const { item, type } = this.props;
+    const { uri } = this.state;
     return (
       <TouchableOpacity onPress={this.onPress} style={SHADOW}>
         <ImageBackground
@@ -17,9 +19,7 @@ class CoverItem extends PureComponent {
             width: 180,
             height: 250
           }}
-          source={{
-            uri: ROOT_URL.IMAGE + item.poster_path
-          }}
+          source={uri}
         >
           <Tile>
             <Title styleName="md-gutter-top">

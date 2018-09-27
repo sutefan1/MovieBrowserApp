@@ -1,29 +1,10 @@
 import React, { PureComponent } from "react";
 import _ from "lodash";
-import {
-  ScrollView,
-  View,
-  TouchableOpacity,
-  FlatList,
-  StatusBar,
-  Platform,
-  YellowBox,
-  Image
-} from "react-native";
-import { ImageBackground, Title, Tile, Spinner } from "@shoutem/ui";
-import DiscoverMovies from "../DiscoverMovies.json";
-import DiscoverTVShows from "../DiscoverTV.json";
-import {
-  ROOT_URL,
-  TYPE_MOVIE_DISCOVER,
-  TYPE_SHOW_DISCOVER,
-  COLOR,
-  KEY_EXTRACTOR,
-  TYPE_GENRE_MOVIE
-} from "../Constants";
+import { View, TouchableOpacity, FlatList, Image } from "react-native";
+import { Title, Spinner } from "@shoutem/ui";
+import { KEY_EXTRACTOR } from "../Constants";
 import PlusSign from "../../assets/plus.png";
 import CoverItem from "../components/CoverItem";
-import * as API from "../ApiUtil";
 
 class HorizontalList extends PureComponent {
   constructor(props) {
@@ -89,24 +70,15 @@ class HorizontalList extends PureComponent {
     );
   };
 
-  renderFooterItem = isFetchingData => {
+  renderFooterItem = () => {
+    const { isFetchingData } = this.state;
     return (
-      <View
-        style={{
-          width: 180,
-          height: 250,
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
+      <View style={styles.footerItemViewStyle}>
         {isFetchingData ? (
-          <Spinner style={{ size: "large" }} />
+          <Spinner style={styles.footerItemSpinnerStyle} />
         ) : (
           <TouchableOpacity onPress={this.fetchNewData}>
-            <Image
-              style={{ width: 180, height: 250, resizeMode: "center" }}
-              source={PlusSign}
-            />
+            <Image style={styles.footerItemImageStyle} source={PlusSign} />
           </TouchableOpacity>
         )}
       </View>
@@ -117,24 +89,23 @@ class HorizontalList extends PureComponent {
     return { length: 180, offset: (180 + 10) * index, index: index };
   };
 
+  renderItemSeparator = () => <View style={{ width: 10, height: 250 }} />;
+
+  getRef = ref => (this.listRef = ref);
   render() {
-    const { title, data, renderItem, isFetchingData } = this.state;
+    const { title, data, renderItem } = this.state;
     return (
-      <View style={{ height: 300 }}>
-        <Title style={{ color: "white", paddingLeft: 20, paddingVertical: 10 }}>
-          {title}
-        </Title>
+      <View style={styles.viewStyle}>
+        <Title style={styles.titleStyle}>{title}</Title>
         <FlatList
-          style={{ height: 250 }}
-          contentContainerStyle={{ paddingHorizontal: 20 }}
-          ItemSeparatorComponent={() => (
-            <View style={{ width: 10, height: 250 }} />
-          )}
-          ListFooterComponent={() => this.renderFooterItem(isFetchingData)}
+          style={styles.listStyle}
+          contentContainerStyle={styles.listContainerStyle}
+          ItemSeparatorComponent={this.renderItemSeparator}
+          ListFooterComponent={this.renderFooterItem}
           data={data}
           renderItem={renderItem}
           horizontal
-          ref={ref => (this.listRef = ref)}
+          ref={this.getRef}
           showsHorizontalScrollIndicator={false}
           keyExtractor={KEY_EXTRACTOR}
           onEndReached={this.onEndReached}
@@ -145,4 +116,24 @@ class HorizontalList extends PureComponent {
   }
 }
 
+const styles = {
+  listStyle: { height: 250 },
+  listContainerStyle: { paddingHorizontal: 20 },
+  viewStyle: { height: 300 },
+  titleStyle: {
+    color: "white",
+    paddingLeft: 20,
+    paddingVertical: 10
+  },
+  footerItemViewStyle: {
+    width: 180,
+    height: 250,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  footerItemSpinnerStyle: {
+    size: "large"
+  },
+  footerItemImageStyle: { width: 180, height: 250, resizeMode: "center" }
+};
 export default HorizontalList;

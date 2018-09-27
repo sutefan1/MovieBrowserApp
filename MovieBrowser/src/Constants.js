@@ -1,5 +1,3 @@
-import ApiKey from "./ApiKey";
-
 export const ROOT_URL = {
   API: `https://api.themoviedb.org/3`,
   IMAGE: "https://image.tmdb.org/t/p/w780"

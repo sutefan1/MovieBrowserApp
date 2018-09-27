@@ -1,20 +1,17 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import {
-  ScrollView,
   View,
   TouchableOpacity,
   FlatList,
   StatusBar,
-  Platform,
-  YellowBox
+  Platform
 } from "react-native";
 
-import { Heading, Title, Icon } from "@shoutem/ui";
+import { Heading, Icon } from "@shoutem/ui";
 import DiscoverMovies from "../DiscoverMovies.json";
 import DiscoverTVShows from "../DiscoverTV.json";
 import {
-  ROOT_URL,
   TYPE_MOVIE_DISCOVER,
   TYPE_SHOW_DISCOVER,
   TYPE_GENRE_MOVIE,

@@ -1,19 +1,7 @@
 import React, { Component } from "react";
-// import { ScrollView, TouchableOpacity } from "react-native";
-import {
-  Button,
-  View,
-  Icon,
-  ImageBackground,
-  Tile,
-  Overlay,
-  Title,
-  Subtitle,
-  Text,
-  ListView,
-  ScrollView
-} from "@shoutem/ui";
-import { ROOT_URL, SHADOW, TYPE_MOVIE_DISCOVER } from "../Constants";
+import { ScrollView } from "react-native";
+import { ImageBackground, Tile, Title, Text } from "@shoutem/ui";
+import { ROOT_URL, TYPE_MOVIE_DISCOVER } from "../Constants";
 import { GetGenreNameById } from "../ApiUtil";
 
 class DetailScreen extends Component {
