@@ -41,7 +41,10 @@ class MainScreen extends Component {
       },
       headerRight: (
         <TouchableOpacity
-          style={{ padding: 20 }}
+          style={{
+            paddingVertical: Platform.OS === "android" ? 20 : 0,
+            paddingHorizontal: 20
+          }}
           onPress={() => navigation.navigate("search")}
         >
           <Icon name="search" style={{ color: "white" }} />
