@@ -1,6 +1,6 @@
 # MovieBrowser
 
- <p align="center"> <img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%201.png" align="center" height="760" width="448" ></p>
+ <p align="center"> <img src="https://github.com/papsti7/MovieBrowserApp/blob/develop/Screenshots/android/0.jpg" align="center" height="760" width="448" ></p>
 ## Motivation
 
 MovieBrowser is a simple read-only app, made for Android and iOS, to get an fast overview of currently popular movies and tvshows. Therefore I made use of an API provided by TheMovieDB. Feel free to check it out, the best public movie db API out there.
@@ -95,46 +95,40 @@ I did a movie browser which gets the information from TMDB with a cross-platform
 
 ### Screenshots
 
-To get a overview of the app and how it works I did some fancy App Store like screenshots:
+To get a overview of the app and how it works I did some fancy store-like screenshots:
 
 #### iOS
 
 <table>
   <tr>
-    <td><a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%201.png" align="center" height="760" width="448" ></a></td>
+    <td><a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/develop/Screenshots/ios/0.jpg" align="center" height="760" width="448" ></a></td>
     <td>
-    <a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%202.png" align="center" height="760" width="448" ></a>
+    <a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/develop/Screenshots/ios/1.jpg" align="center" height="760" width="448" ></a>
     </td>
   </tr>
     <tr>
-    <td><a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%203.png" align="center" height="760" width="448" ></a></td>
+    <td><a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/develop/Screenshots/ios/2.jpg" align="center" height="760" width="448" ></a></td>
     <td>
-    <a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%204.png" align="center" height="760" width="448" ></a>
+    <a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/develop/Screenshots/ios/3.jpg" align="center" height="760" width="448" ></a>
     </td>
   </tr>
-    <tr>
-    <td><a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/ios/translatelearn_1.0_iOS/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%205.png" align="center" height="760" width="448" ></a></td>
-
-  </tr>
+  
   </table>
 
 #### Android
 
 <table>
   <tr>
-    <td><a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/android/translatelearn_1.0_Android/Nexus%206P%20-%20Screenshot%201.png" align="center" height="760" width="448" ></a></td>
+    <td><a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/develop/Screenshots/android/0.jpg" align="center" height="760" width="448" ></a></td>
     <td>
-    <a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/android/translatelearn_1.0_Android/Nexus%206P%20-%20Screenshot%202.png" align="center" height="760" width="448" ></a>
+    <a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/develop/Screenshots/android/1.jpg" align="center" height="760" width="448" ></a>
     </td>
   </tr>
     <tr>
-    <td><a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/android/translatelearn_1.0_Android/Nexus%206P%20-%20Screenshot%203.png" align="center" height="760" width="448" ></a></td>
+    <td><a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/develop/Screenshots/android/2.jpg" align="center" height="760" width="448" ></a></td>
     <td>
-    <a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/android/translatelearn_1.0_Android/Nexus%206P%20-%20Screenshot%204.png" align="center" height="760" width="448" ></a>
+    <a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/develop/Screenshots/android/3.jpg" align="center" height="760" width="448" ></a>
     </td>
   </tr>
-    <tr>
-    <td><a href="url"><img src="https://github.com/papsti7/TranslateAndLearn/blob/develop/Screenshots/android/translatelearn_1.0_Android/Nexus%206P%20-%20Screenshot%205.png" align="center" height="760" width="448" ></a></td>
-
-  </tr>
+    
   </table>
