@@ -1,6 +1,6 @@
 # MovieBrowser
 
- <p align="center"> <img src="https://github.com/papsti7/MovieBrowserApp/blob/develop/Screenshots/android/0.jpg" align="center" height="760" width="448" ></p>
+ <p align="center"> <img src="https://github.com/papsti7/MovieBrowserApp/blob/bb1428ee3189b79284b6b6043fe44919e2cd3cbf/Screenshots/android/0.jpg" align="center" height="760" width="448" ></p>
 ## Motivation
 
 MovieBrowser is a simple read-only app, made for Android and iOS, to get an fast overview of currently popular movies and tvshows. Therefore I made use of an API provided by TheMovieDB. Feel free to check it out, the best public movie db API out there.
@@ -101,15 +101,15 @@ To get a overview of the app and how it works I did some fancy store-like screen
 
 <table>
   <tr>
-    <td><a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/develop/Screenshots/ios/0.jpg" align="center" height="760" width="448" ></a></td>
+    <td><a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/bb1428ee3189b79284b6b6043fe44919e2cd3cbf/Screenshots/ios/0.jpg" align="center" height="760" width="448" ></a></td>
     <td>
-    <a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/develop/Screenshots/ios/1.jpg" align="center" height="760" width="448" ></a>
+    <a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/bb1428ee3189b79284b6b6043fe44919e2cd3cbf/Screenshots/ios/1.jpg" align="center" height="760" width="448" ></a>
     </td>
   </tr>
     <tr>
-    <td><a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/develop/Screenshots/ios/2.jpg" align="center" height="760" width="448" ></a></td>
+    <td><a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/bb1428ee3189b79284b6b6043fe44919e2cd3cbf/Screenshots/ios/2.jpg" align="center" height="760" width="448" ></a></td>
     <td>
-    <a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/develop/Screenshots/ios/3.jpg" align="center" height="760" width="448" ></a>
+    <a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/bb1428ee3189b79284b6b6043fe44919e2cd3cbf/Screenshots/ios/3.jpg" align="center" height="760" width="448" ></a>
     </td>
   </tr>
   
@@ -119,15 +119,15 @@ To get a overview of the app and how it works I did some fancy store-like screen
 
 <table>
   <tr>
-    <td><a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/develop/Screenshots/android/0.jpg" align="center" height="760" width="448" ></a></td>
+    <td><a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/bb1428ee3189b79284b6b6043fe44919e2cd3cbf/Screenshots/android/0.jpg" align="center" height="760" width="448" ></a></td>
     <td>
-    <a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/develop/Screenshots/android/1.jpg" align="center" height="760" width="448" ></a>
+    <a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/bb1428ee3189b79284b6b6043fe44919e2cd3cbf/Screenshots/android/1.jpg" align="center" height="760" width="448" ></a>
     </td>
   </tr>
     <tr>
-    <td><a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/develop/Screenshots/android/2.jpg" align="center" height="760" width="448" ></a></td>
+    <td><a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/bb1428ee3189b79284b6b6043fe44919e2cd3cbf/Screenshots/android/2.jpg" align="center" height="760" width="448" ></a></td>
     <td>
-    <a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/develop/Screenshots/android/3.jpg" align="center" height="760" width="448" ></a>
+    <a href="url"><img src="https://github.com/papsti7/MovieBrowserApp/blob/bb1428ee3189b79284b6b6043fe44919e2cd3cbf/Screenshots/android/3.jpg" align="center" height="760" width="448" ></a>
     </td>
   </tr>
     
